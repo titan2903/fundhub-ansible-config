@@ -1,0 +1,35 @@
+- name: Set hostname agent sandbox
+  hostname:
+    name: "{{ hostname_agent_sandbox }}"
+
+- name: Install fontconfig
+  ansible.builtin.apt:
+    name: fontconfig
+    state: present
+
+- name: Install OpenJDK 17
+  ansible.builtin.apt:
+    name: openjdk-17-jre
+    state: present
+
+- name: Display Java version
+  ansible.builtin.shell:
+    cmd: "java -version"
+  register: java_version_output
+
+- name: Print Java version
+  ansible.builtin.debug:
+    var: java_version_output.stdout_lines
+
+
+- name: Generate SSH key pair agent sandbox
+  ansible.builtin.openssh_keypair:
+    path: "/home/titan/.ssh/id_rsa_sandbox"
+    type: rsa
+    size: 2048
+    state: present
+  register: ssh_key_result
+
+- name: Display public key agent sandbox
+  ansible.builtin.debug:
+    var: ssh_key_result

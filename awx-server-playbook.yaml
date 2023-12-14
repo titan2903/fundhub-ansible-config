@@ -1,0 +1,9 @@
+- name: Setup goapp server
+  hosts: awx-server
+  become: true
+  vars:
+    - hostname: awx-server
+    - awx_installer_directory: "/home/titan/awx/awx-17.1.0/installer"
+  roles:
+    - linux
+    - awx-server

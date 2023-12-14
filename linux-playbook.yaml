@@ -1,0 +1,7 @@
+- name: Linux Update
+  hosts: 
+    - awx-server
+    # - jenkins-server
+  become: yes
+  roles:
+    - linux

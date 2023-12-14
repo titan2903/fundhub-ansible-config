@@ -1,0 +1,4 @@
+roles/awx-server/files/inventory
+inventory.ini
+ansible.cfg
+.vscode

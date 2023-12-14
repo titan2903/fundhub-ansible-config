@@ -1,0 +1,98 @@
+- name: Set hostname
+  hostname:
+    name: "{{ hostname }}"
+
+- name: Install required packages
+  apt:
+    name:
+      - apt-transport-https
+      - ca-certificates
+      - curl
+      - software-properties-common
+      - python3-pip
+      - unzip
+      - git
+      - pwgen
+    
+- name: Add Docker GPG key
+  apt_key:
+    url: https://download.docker.com/linux/ubuntu/gpg
+
+- name: Add Docker APT repository
+  apt_repository:
+    repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ ansible_lsb.codename }} stable
+
+- name: Update apt package cache (again for the new repository)
+  apt:
+    update_cache: yes
+
+- name: Install Docker
+  apt:
+    name: docker-ce
+    state: present
+
+- name: Start and enable Docker service
+  service:
+    name: docker
+    state: started
+    enabled: yes
+
+- name: Set permissions for /var/run/docker.sock
+  ansible.builtin.file:
+    path: /var/run/docker.sock
+    mode: '0666'
+
+- name: Add Ansible PPA (Personal Package Archive)
+  apt_repository:
+    repo: ppa:ansible/ansible
+
+- name: Update apt package cache
+  apt:
+    update_cache: yes
+
+- name: Install Ansible
+  apt:
+    name: ansible
+    state: present
+
+- name: Install Node.js
+  apt:
+    name: nodejs
+    state: present
+
+- name: Install npm
+  apt:
+    name: npm
+    state: present
+
+- name: Install Docker Compose version 1.25.0
+  pip:
+    name: docker-compose==1.25.0
+    executable: pip3
+
+- name: Create /home/titan/awx directory
+  ansible.builtin.file:
+    path: /home/titan/awx
+    state: directory
+    mode: 0755
+    owner: titan
+    group: titan
+
+- name: Download AWX source code zip file
+  get_url:
+    url: https://github.com/ansible/awx/archive/refs/tags/17.1.0.zip
+    dest: /home/titan/17.1.0.zip
+
+- name: Unzip AWX source code
+  unarchive:
+    src: /home/titan/17.1.0.zip
+    dest: /home/titan/awx/
+    remote_src: yes
+
+- name: Change to the installer directory
+  ansible.builtin.command: chdir={{ awx_installer_directory }} ls
+  register: change_directory_output
+
+- name: Display current working directory after the change
+  ansible.builtin.debug:
+    var: change_directory_output.stdout_lines

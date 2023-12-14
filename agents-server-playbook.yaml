@@ -1,0 +1,12 @@
+- name: Setup goapp server
+  hosts: 
+    - agent-jenkins-sandbox-server
+    - agent-jenkins-fire-server
+  become: yes
+  vars:
+    - hostname_agent_sandbox: agent-jenkins-sandbox
+    - hostname_agent_fire: agent-jenkins-fire
+  roles:
+    - linux
+    - agent-sandbox-server
+    - agent-fire-server
