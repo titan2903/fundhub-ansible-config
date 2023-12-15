@@ -11,6 +11,7 @@
   ansible.builtin.apt:
     name: openjdk-17-jre
     state: present
+  notify: Update apt cache
 
 - name: Display Java version
   ansible.builtin.shell:
@@ -20,10 +21,6 @@
 - name: Print Java version
   ansible.builtin.debug:
     var: java_version_output.stdout_lines
-
-- name: Update APT package cache
-  ansible.builtin.apt:
-    update_cache: yes
 
 - name: Download Jenkins GPG key
   ansible.builtin.get_url:
