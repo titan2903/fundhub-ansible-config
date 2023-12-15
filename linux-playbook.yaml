@@ -5,6 +5,8 @@
     - agent-jenkins-sandbox-server
     - agent-jenkins-fire-server
     - atlantis-server
+    - mariadb-prod-server
+    - mariadb-stag-server
   become: true
   roles:
     - linux

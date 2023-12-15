@@ -1,4 +1,4 @@
-- name: Setup goapp server
+- name: Setup jenkins server
   hosts: jenkins-server
   become: true
   vars:

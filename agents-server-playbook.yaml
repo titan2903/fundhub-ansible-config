@@ -1,4 +1,4 @@
-- name: Setup goapp server
+- name: Setup jenkins agents server
   hosts: 
     - agent-jenkins-sandbox-server
     - agent-jenkins-fire-server

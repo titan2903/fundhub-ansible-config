@@ -1,4 +1,4 @@
-- name: Setup goapp server
+- name: Setup awx server
   hosts: awx-server
   become: true
   vars:

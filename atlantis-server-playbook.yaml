@@ -1,4 +1,4 @@
-- name: Setup goapp server
+- name: Setup atlantis server
   hosts: atlantis-server
   become: true
   vars:
