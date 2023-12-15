@@ -1,7 +1,10 @@
 - name: Linux Update
   hosts: 
     - awx-server
-    # - jenkins-server
-  become: yes
+    - jenkins-server
+    - agent-jenkins-sandbox-server
+    - agent-jenkins-fire-server
+    - atlantis-server
+  become: true
   roles:
     - linux

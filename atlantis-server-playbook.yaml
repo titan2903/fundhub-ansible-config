@@ -1,0 +1,8 @@
+- name: Setup goapp server
+  hosts: atlantis-server
+  become: true
+  vars:
+    - hostname: atlantis-server
+  roles:
+    - linux
+    - atlantis-server

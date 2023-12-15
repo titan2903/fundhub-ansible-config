@@ -1,6 +1,6 @@
 - name: Setup goapp server
   hosts: jenkins-server
-  become: yes
+  become: true
   vars:
     - hostname: jenkins-server
   roles:

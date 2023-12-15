@@ -1,0 +1,82 @@
+- name: Set hostname
+  hostname:
+    name: "{{ hostname }}"
+
+- name: Install required packages
+  apt:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - gnupg
+    - software-properties-common
+    - unzip
+
+- name: Download and install Terragrunt
+  shell: >
+    curl -LJO https://github.com/gruntwork-io/terragrunt/releases/download/v{{ terragrunt_version }}/terragrunt_linux_amd64
+    && chmod +x terragrunt_linux_amd64
+    && sudo mv terragrunt_linux_amd64 /usr/local/bin/terragrunt
+    && sudo chmod u+x /usr/local/bin/terragrunt
+  args:
+    executable: /bin/bash
+  vars:
+    terragrunt_version: "0.54.4"  # Replace with the desired Terragrunt version
+
+- name: Download and extract Atlantis
+  ansible.builtin.unarchive:
+    src: https://github.com/runatlantis/atlantis/releases/download/v0.27.0/atlantis_linux_amd64.zip
+    dest: /usr/local/bin
+    remote_src: yes
+
+- name: Make Atlantis executable
+  file:
+    path: /usr/local/bin/atlantis
+    mode: '0755'
+
+- name: Download GPG key
+  get_url:
+    url: https://apt.releases.hashicorp.com/gpg
+    dest: /tmp/hashicorp-archive-keyring.gpg
+
+- name: Import GPG key
+  shell: "gpg --dearmor < /tmp/hashicorp-archive-keyring.gpg | sudo tee /usr/share/keyrings/hashicorp-archive-keyring.gpg"
+  args:
+    executable: /bin/bash
+
+- name: Display GPG key fingerprint
+  shell: "gpg --no-default-keyring --keyring /usr/share/keyrings/hashicorp-archive-keyring.gpg --fingerprint"
+  args:
+    executable: /bin/bash
+
+- name: Add HashiCorp repository line to sources.list.d
+  ansible.builtin.lineinfile:
+    path: /etc/apt/sources.list.d/hashicorp.list
+    line: 'deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com {{ ansible_distribution_release|lower }} main'
+    create: yes
+  notify:
+    - Update apt cache
+
+- name: Install Terraform
+  apt:
+    name: terraform
+    state: present
+
+- name: Remove temporary GPG key file
+  file:
+    path: /tmp/hashicorp-archive-keyring.gpg
+    state: absent
+
+- name: Create a folder atlantis
+  ansible.builtin.file:
+    path: /etc/atlantis
+    state: directory
+
+- name: Create a folder credentials
+  ansible.builtin.file:
+    path: /etc/atlantis/credentials
+    state: directory
+    
+- name: Copy atlantis.yaml from local to server
+  copy:
+    src: files/atlantis.yaml
+    dest: /etc/atlantis/atlantis.yaml

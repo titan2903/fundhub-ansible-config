@@ -2,7 +2,7 @@
   hosts: 
     - agent-jenkins-sandbox-server
     - agent-jenkins-fire-server
-  become: yes
+  become: true
   vars:
     - hostname_agent_sandbox: agent-jenkins-sandbox
     - hostname_agent_fire: agent-jenkins-fire
