@@ -21,7 +21,6 @@
   ansible.builtin.debug:
     var: java_version_output.stdout_lines
 
-
 - name: Generate SSH key pair agent sandbox
   ansible.builtin.openssh_keypair:
     path: "/home/titan/.ssh/id_rsa_sandbox"

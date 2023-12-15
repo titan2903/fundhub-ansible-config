@@ -80,3 +80,8 @@
   copy:
     src: files/atlantis.yaml
     dest: /etc/atlantis/atlantis.yaml
+
+- name: Copy GCP key from local to server
+  copy:
+    src: files/fundhub-408000-dd7e3426051f.json
+    dest: /etc/atlantis/credentials/gcp-fundhub.yaml
