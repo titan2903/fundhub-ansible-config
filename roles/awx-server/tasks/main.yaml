@@ -40,6 +40,17 @@
     path: /var/run/docker.sock
     mode: '0666'
 
+- name: Add user to docker group
+  ansible.builtin.user:
+    name: "{{ ansible_user }}"
+    groups: docker
+    append: yes
+
+- name: Restart Docker service
+  ansible.builtin.systemd:
+    name: docker
+    state: restarted
+
 - name: Add Ansible PPA (Personal Package Archive)
   apt_repository:
     repo: ppa:ansible/ansible
@@ -92,3 +103,13 @@
 - name: Display current working directory after the change
   ansible.builtin.debug:
     var: change_directory_output.stdout_lines
+
+- name: Copy inventory file from local to server
+  copy:
+    src: files/inventory
+    dest: /home/titan/awx/awx-17.1.0/installer/inventory
+
+- name: Apply ansible installation
+  ansible.builtin.shell:
+    cmd: ansible-playbook -i inventory install.yml
+    chdir: "{{ awx_installer_directory }}"
