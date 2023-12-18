@@ -1,3 +1,0 @@
-collections:
-  - name: community.mysql
-    varsion: "2.3.8"
