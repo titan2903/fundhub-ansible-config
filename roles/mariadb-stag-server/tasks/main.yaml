@@ -20,17 +20,39 @@
     line: 'bind-address = 0.0.0.0'
   notify: 
     - Restart mariadb
+  register: enable_mariadb
 
-- name: Create user DB
-  community.mysql.mysql_user:
-    name: "{{ db_user }}"
-    password: "{{ db_password }}"
-    priv: '*.*:ALL,GRANT'
-    host: '%'
-    state: present
-    column_case_sensitive: true
+# - name: Create user DB
+#   community.mysql.mysql_user:
+#     name: "{{ db_user }}"
+#     password: "{{ db_password }}"
+#     priv: '*.*:ALL,GRANT'
+#     host: '%'
+#     state: present
+#     column_case_sensitive: true
 
-- name: Create database
-  community.mysql.mysql_db:
-    name: "{{ db_name }}"
-    state: present
+# - name: Create database
+#   community.mysql.mysql_db:
+#     name: "{{ db_name }}"
+#     state: present
+
+- name: Display enable mariadb
+  ansible.builtin.debug:
+    var: enable_mariadb
+
+- name: Send Discord Notification on Success
+  command: >
+    curl -X POST
+    -H "Content-Type: application/json"
+    -d '{"content": "Ansible Playbook MariaDB Staging Execution Successful!"}'
+    "{{ discord_webhook }}"
+  ignore_errors: true
+  when: enable_mariadb.failed == false
+
+- name: Send Discord Notification on Failure
+  command: >
+    curl -X POST
+    -H "Content-Type: application/json"
+    -d '{"content": "Ansible Playbook MariaDB Staging Execution Failed!" }'
+    "{{ discord_webhook }}"
+  ignore_errors: true
