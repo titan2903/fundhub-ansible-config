@@ -37,7 +37,7 @@
   command: >
     curl -X POST
     -H "Content-Type: application/json"
-    -d '{"content": "Ansible Playbook Agent Fire Execution Successful!"}'
+    -d '{"content": "Ansible Playbook", "embeds": [{"title": "Ansible Playbook", "description": "Ansible Playbook Agent Fire Execution Successful!","color": 65280}]}'
     "{{ discord_webhook }}"
   ignore_errors: true
   when: ssh_key_result.type == "rsa"
@@ -46,7 +46,7 @@
   command: >
     curl -X POST
     -H "Content-Type: application/json"
-    -d '{"content": "Ansible Playbook Agent Fire Execution Failed!" }'
+    -d '{"content": "Ansible Playbook","embeds": [{"title": "Ansible Playbook", "description": "Ansible Playbook Agent Fire Execution Failed!","color": 16711680}]}'
     "{{ discord_webhook }}"
   ignore_errors: true
   when: ssh_key_result.type != "rsa"
