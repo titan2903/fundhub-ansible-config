@@ -45,7 +45,7 @@
     enabled: yes
   register: enable_jenkins
 
-- name: Display public key agent fire
+- name: Display enable jenkins
   ansible.builtin.debug:
     var: enable_jenkins
 
@@ -62,7 +62,7 @@
   command: >
     curl -X POST
     -H "Content-Type: application/json"
-    -d '{"content": "Ansible Playbook Jenkins Execution Failed!\nError Message: {{ ansible_job_result.msg }}" }'
+    -d '{"content": "Ansible Playbook Jenkins Execution Failed!" }'
     "{{ discord_webhook }}"
   ignore_errors: true
-  when: enable_jenkins.enabled != true
+  when: enable_jenkins.enabled == false

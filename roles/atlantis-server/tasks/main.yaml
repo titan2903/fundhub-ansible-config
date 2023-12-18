@@ -60,6 +60,7 @@
   apt:
     name: terraform
     state: present
+  register: install_terraform
 
 - name: Remove temporary GPG key file
   file:
@@ -80,16 +81,35 @@
   copy:
     src: files/atlantis.yaml
     dest: /etc/atlantis/atlantis.yaml
-    remote_src: yes
 
 - name: Copy file fundhub-408000-dd7e3426051f.json from local to server
   copy:
     src: files/fundhub-408000-dd7e3426051f.json
     dest: /etc/atlantis/credentials/gcp-fundhub.json
-    remote_src: yes
 
 - name: Copy file fundhub-staging-4bb80b124ea7.json from local to server
   copy:
     src: files/fundhub-staging-4bb80b124ea7.json
     dest: /etc/atlantis/credentials/gcp-fundhub-stag.json
-    remote_src: yes
+
+- name: Display install terraform
+  ansible.builtin.debug:
+    var: install_terraform
+
+- name: Send Discord Notification on Success
+  command: >
+    curl -X POST
+    -H "Content-Type: application/json"
+    -d '{"content": "Ansible Playbook Atlantis Execution Successful!"}'
+    "{{ discord_webhook }}"
+  ignore_errors: true
+  when: install_terraform.failed == false
+
+- name: Send Discord Notification on Failure
+  command: >
+    curl -X POST
+    -H "Content-Type: application/json"
+    -d '{"content": "Ansible Playbook Atlantis Execution Failed!" }'
+    "{{ discord_webhook }}"
+  ignore_errors: true
+  when: install_terraform.failed == true
