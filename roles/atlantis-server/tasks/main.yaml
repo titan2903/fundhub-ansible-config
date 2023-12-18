@@ -103,7 +103,7 @@
   command: >
     curl -X POST
     -H "Content-Type: application/json"
-    -d '{"content": "Ansible Playbook Atlantis Execution Successful!"}'
+    -d '{"content": "Ansible Playbook", "embeds": [{"title": "Ansible Playbook", "description": "Ansible Playbook Atlantis Execution Successful!","color": 65280}]}'
     "{{ discord_webhook }}"
   ignore_errors: true
   when: install_terraform.failed == false
@@ -112,7 +112,7 @@
   command: >
     curl -X POST
     -H "Content-Type: application/json"
-    -d '{"content": "Ansible Playbook Atlantis Execution Failed!" }'
+    -d '{"content": "Ansible Playbook", "embeds": [{"title": "Ansible Playbook", "description": "Ansible Playbook Atlantis Execution Failed!","color": 16711680}]}'
     "{{ discord_webhook }}"
   ignore_errors: true
   when: install_terraform.failed == true
