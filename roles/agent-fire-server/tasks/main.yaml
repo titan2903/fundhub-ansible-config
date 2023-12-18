@@ -31,7 +31,7 @@
 
 - name: Display public key agent fire
   ansible.builtin.debug:
-    var: ssh_key_result
+    var: ssh_key_result.rc
 
 - name: Send Discord Notification on Success
   command: >
@@ -39,7 +39,7 @@
     -H "Content-Type: application/json"
     -d '{"content": "Ansible Playbook Agent Fire Execution Successful!"}'
     "{{ discord_webhook }}"
-#   ignore_errors: true
+  ignore_errors: true
 #   when: ssh_key_result.rc == 0
 
 # - name: Send Discord Notification on Failure
