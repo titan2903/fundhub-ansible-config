@@ -53,7 +53,7 @@
   command: >
     curl -X POST
     -H "Content-Type: application/json"
-    -d '{"content": "Ansible Playbook"}, "embeds": [{"title": "Ansible Playbook", "description": "Ansible Playbook Jenkins Execution Successful!","color": 65280}]}'
+    -d '{"content": "Ansible Playbook", "embeds": [{"title": "Ansible Playbook", "description": "Ansible Playbook Jenkins Execution Successful!","color": 65280}]}'
     "{{ discord_webhook }}"
   ignore_errors: true
   when: enable_jenkins.enabled == true
