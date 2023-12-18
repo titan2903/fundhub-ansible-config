@@ -1,6 +1,8 @@
 - name: Setup atlantis server
   hosts: atlantis-server
   become: true
+  vars:
+    - hostname: atlantis-server
   roles:
     - linux
     - atlantis-server
