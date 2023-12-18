@@ -22,7 +22,7 @@
     - Restart mariadb
 
 - name: Create user DB
-  community.mysql.mysql_user:
+  community.mysql.mysql_db_user:
     name: "{{ db_user }}"
     password: "{{ db_password }}"
     priv: '*.*:ALL,GRANT'
