@@ -22,7 +22,7 @@
     - Restart mariadb
 
 - name: Create user DB
-  /home/titan/.ansible/collections/ansible_collections/community/mysql/plugins/modules/mysql_user.py:
+  community.mysql.mysql_user:
     name: "{{ db_user }}"
     password: "{{ db_password }}"
     priv: '*.*:ALL,GRANT'
