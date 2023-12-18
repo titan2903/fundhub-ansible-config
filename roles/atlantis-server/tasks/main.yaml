@@ -79,7 +79,7 @@
 
 - name: Copy file atlantis.yaml
   copy:
-    src: /home/titan/atlantis/atlantis-config/atlantis.yaml
+    src: /home/titan/atlantis/atlantis.yaml
     dest: /etc/atlantis/atlantis.yaml
     remote_src: yes
 
