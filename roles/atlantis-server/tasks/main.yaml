@@ -75,6 +75,14 @@
   ansible.builtin.file:
     path: /etc/atlantis/credentials
     state: directory
+
+- name: Run ll -la command
+  hosts: your_target_hosts
+  tasks:
+    - name: Execute ll -la
+      shell: ll -la
+      args:
+        executable: /bin/bash
     
 - name: Copy atlantis.yaml from local to server
   copy:
