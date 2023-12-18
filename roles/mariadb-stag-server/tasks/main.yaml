@@ -22,19 +22,19 @@
     - Restart mariadb
   register: enable_mariadb
 
-# - name: Create user DB
-#   community.mysql.mysql_user:
-#     name: "{{ db_user }}"
-#     password: "{{ db_password }}"
-#     priv: '*.*:ALL,GRANT'
-#     host: '%'
-#     state: present
-#     column_case_sensitive: true
+- name: Create user DB
+  community.mysql.mysql_user:
+    name: "{{ db_user }}"
+    password: "{{ db_password }}"
+    priv: '*.*:ALL,GRANT'
+    host: '%'
+    state: present
+    column_case_sensitive: true
 
-# - name: Create database
-#   community.mysql.mysql_db:
-#     name: "{{ db_name }}"
-#     state: present
+- name: Create database
+  community.mysql.mysql_db:
+    name: "{{ db_name }}"
+    state: present
 
 - name: Display enable mariadb
   ansible.builtin.debug:
