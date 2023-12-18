@@ -78,18 +78,18 @@
     
 - name: Copy atlantis.yaml from local to server
   copy:
-    src: files/atlantis.yaml
+    src: roles/atlantis-server/files/atlantis.yaml
     dest: /etc/atlantis/atlantis.yaml
     remote_src: yes
 
 - name: Copy file fundhub-408000-dd7e3426051f.json from local to server
   copy:
-    src: files/fundhub-408000-dd7e3426051f.json
+    src: roles/atlantis-server/files/fundhub-408000-dd7e3426051f.json
     dest: /etc/atlantis/credentials/gcp-fundhub.json
     remote_src: yes
 
 - name: Copy file fundhub-staging-4bb80b124ea7.json from local to server
   copy:
-    src: files/fundhub-staging-4bb80b124ea7.json
+    src: roles/atlantis-server/files/fundhub-staging-4bb80b124ea7.json
     dest: /etc/atlantis/credentials/gcp-fundhub-stag.json
     remote_src: yes
