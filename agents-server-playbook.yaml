@@ -3,9 +3,6 @@
     - agent-jenkins-sandbox-server
     - agent-jenkins-fire-server
   become: true
-  vars:
-    - hostname_agent_sandbox: agent-jenkins-sandbox
-    - hostname_agent_fire: agent-jenkins-fire
   roles:
     - linux
     - agent-sandbox-server
