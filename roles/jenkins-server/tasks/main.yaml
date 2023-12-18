@@ -1,6 +1,6 @@
-# - name: Set hostname
-#   hostname:
-#     name: "{{ hostname }}"
+- name: Set hostname
+  hostname:
+    name: "{{ hostname }}"
 
 - name: Install fontconfig
   ansible.builtin.apt:
