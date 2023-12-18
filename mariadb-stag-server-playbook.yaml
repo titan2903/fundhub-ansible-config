@@ -4,7 +4,7 @@
   # vars: 
   #   - hostname: mariadb-staging-server
   # vars_files:
-  #   - mariadb_secret.yaml
+  #   - mariadb_stag_secret.yaml
   roles:
     - linux
     - mariadb-stag-server
