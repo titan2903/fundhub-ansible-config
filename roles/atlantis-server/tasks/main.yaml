@@ -77,19 +77,19 @@
     path: /etc/atlantis/credentials
     state: directory
 
-- name: Copy atlantis.yaml from local to server
+- name: Copy file atlantis.yaml
   copy:
-    src: files/atlantis.yaml
+    src: /tmp/atlantis-config/atlantis.yaml
     dest: /etc/atlantis/atlantis.yaml
 
-- name: Copy file fundhub-408000-dd7e3426051f.json from local to server
+- name: Copy file fundhub-408000-dd7e3426051f.json
   copy:
-    src: files/fundhub-408000-dd7e3426051f.json
+    src: /tmp/credentials/fundhub-408000-dd7e3426051f.json
     dest: /etc/atlantis/credentials/gcp-fundhub.json
 
-- name: Copy file fundhub-staging-4bb80b124ea7.json from local to server
+- name: Copy file fundhub-staging-4bb80b124ea7.json
   copy:
-    src: files/fundhub-staging-4bb80b124ea7.json
+    src: /tmp/credentials/fundhub-staging-4bb80b124ea7.json
     dest: /etc/atlantis/credentials/gcp-fundhub-stag.json
 
 - name: Display install terraform
