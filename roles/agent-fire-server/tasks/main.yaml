@@ -32,3 +32,21 @@
 - name: Display public key agent fire
   ansible.builtin.debug:
     var: ssh_key_result
+
+- name: Send Discord Notification on Success
+  ansible.builtin.webhook:
+    url: "{{ discord_webhook }}"
+    method: POST
+    body: '{"content": "Ansible Playbook Agent Fire Execution Successful!"}'
+    status_code: 204
+  ignore_errors: true
+  when: ansible_job_result.rc == 0
+
+- name: Send Discord Notification on Failure
+  ansible.builtin.webhook:
+    url: "{{ discord_webhook }}"
+    method: POST
+    body: '{"content": "Ansible Playbook Agent Fire Execution Failed!\nError Message: {{ ansible_job_result.msg }}" }'
+    status_code: 204
+  ignore_errors: true
+  when: ansible_job_result.rc != 0

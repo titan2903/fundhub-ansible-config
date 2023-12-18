@@ -34,3 +34,21 @@
   community.mysql.mysql_db:
     name: "{{ db_name }}"
     state: present
+
+- name: Send Discord Notification on Success
+  ansible.builtin.webhook:
+    url: "{{ discord_webhook }}"
+    method: POST
+    body: '{"content": "Ansible Playbook MariaDB Staging Execution Successful!"}'
+    status_code: 204
+  ignore_errors: true
+  when: ansible_job_result.rc == 0
+
+- name: Send Discord Notification on Failure
+  ansible.builtin.webhook:
+    url: "{{ discord_webhook }}"
+    method: POST
+    body: '{"content": "Ansible Playbook MariaDB Staging Execution Failed!\nError Message: {{ ansible_job_result.msg }}" }'
+    status_code: 204
+  ignore_errors: true
+  when: ansible_job_result.rc != 0
