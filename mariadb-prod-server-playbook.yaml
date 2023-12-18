@@ -1,6 +1,10 @@
 - name: Setup mariadb server production
   hosts: mariadb-prod-server
   become: true
+  # vars: 
+  #   - hostname: mariadb-prod-server
+  # vars_files:
+  #   - mariadb_secret.yaml
   roles:
     - linux
     - mariadb-prod-server

@@ -1,6 +1,10 @@
 - name: Setup mariadb server staging
   hosts: mariadb-stag-server
   become: true
+  # vars: 
+  #   - hostname: mariadb-staging-server
+  # vars_files:
+  #   - mariadb_secret.yaml
   roles:
     - linux
     - mariadb-stag-server
