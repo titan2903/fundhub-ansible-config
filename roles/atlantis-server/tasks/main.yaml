@@ -79,8 +79,9 @@
 
 - name: Copy file atlantis.yaml
   copy:
-    src: /tmp/atlantis-config/atlantis.yaml
+    src: files/atlantis.yaml
     dest: /etc/atlantis/atlantis.yaml
+    remote_src: no
 
 - name: Copy file fundhub-408000-dd7e3426051f.json
   copy:
