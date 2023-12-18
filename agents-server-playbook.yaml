@@ -1,7 +1,8 @@
 - name: Setup jenkins agents server
   hosts: 
-    - agent-jenkins-sandbox-server
-    - agent-jenkins-fire-server
+    - agent-jenkins-server
+    # - agent-jenkins-sandbox-server
+    # - agent-jenkins-fire-server
   become: true
   roles:
     - linux
