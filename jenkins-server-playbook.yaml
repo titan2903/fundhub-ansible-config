@@ -1,8 +1,6 @@
 - name: Setup jenkins server
   hosts: jenkins-server
   become: true
-  vars:
-    - hostname: jenkins-server
   roles:
     - linux
     - jenkins-server
