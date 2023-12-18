@@ -40,7 +40,7 @@
     -d '{"content": "Ansible Playbook Agent Fire Execution Successful!"}'
     "{{ discord_webhook }}"
   ignore_errors: true
-  when: ansible_job_result.rc == 0
+  when: ssh_key_result.rc == 0
 
 - name: Send Discord Notification on Failure
   command: >
@@ -49,4 +49,4 @@
     -d '{"content": "Ansible Playbook Agent Fire Execution Failed!\nError Message: {{ ansible_job_result.msg }}" }'
     "{{ discord_webhook }}"
   ignore_errors: true
-  when: ansible_job_result.rc != 0
+  when: ssh_key_result.rc != 0
