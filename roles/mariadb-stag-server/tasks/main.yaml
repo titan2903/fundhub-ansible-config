@@ -56,3 +56,4 @@
     -d '{"content": "Ansible Playbook MariaDB Staging Execution Failed!" }'
     "{{ discord_webhook }}"
   ignore_errors: true
+  when: enable_mariadb.failed == true
