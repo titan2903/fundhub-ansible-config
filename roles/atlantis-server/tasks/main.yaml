@@ -79,19 +79,19 @@
 
 - name: Copy file atlantis.yaml
   copy:
-    src: /tmp/atlantis-config/atlantis.yaml
+    src: /home/titan/atlantis/atlantis-config/atlantis.yaml
     dest: /etc/atlantis/atlantis.yaml
     remote_src: yes
 
 - name: Copy file fundhub-408000-dd7e3426051f.json
   copy:
-    src: /tmp/credentials/fundhub-408000-dd7e3426051f.json
+    src: /home/titan/atlantis/credentials/fundhub-408000-dd7e3426051f.json
     dest: /etc/atlantis/credentials/gcp-fundhub.json
     remote_src: yes
 
 - name: Copy file fundhub-staging-4bb80b124ea7.json
   copy:
-    src: /tmp/credentials/fundhub-staging-4bb80b124ea7.json
+    src: /home/titan/atlantis/credentials/fundhub-staging-4bb80b124ea7.json
     dest: /etc/atlantis/credentials/gcp-fundhub-stag.json
     remote_src: yes
 
