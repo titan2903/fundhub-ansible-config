@@ -1,6 +1,6 @@
-- name: Set hostname
-  hostname:
-    name: "{{ hostname }}"
+# - name: Set hostname
+#   hostname:
+#     name: "{{ hostname }}"
 
 - name: Install fontconfig
   ansible.builtin.apt:
@@ -43,3 +43,26 @@
     name: jenkins
     state: started
     enabled: yes
+  register: enable_jenkins
+
+- name: Display public key agent fire
+  ansible.builtin.debug:
+    var: enable_jenkins
+
+- name: Send Discord Notification on Success
+  command: >
+    curl -X POST
+    -H "Content-Type: application/json"
+    -d '{"content": "Ansible Playbook Agent Fire Execution Successful!"}'
+    "{{ discord_webhook }}"
+  ignore_errors: true
+  when: enable_jenkins.enabled == true
+
+- name: Send Discord Notification on Failure
+  command: >
+    curl -X POST
+    -H "Content-Type: application/json"
+    -d '{"content": "Ansible Playbook Agent Fire Execution Failed!\nError Message: {{ ansible_job_result.msg }}" }'
+    "{{ discord_webhook }}"
+  ignore_errors: true
+  when: enable_jenkins.enabled != false
