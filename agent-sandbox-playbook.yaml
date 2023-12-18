@@ -1,0 +1,7 @@
+- name: Setup jenkins agents server
+  hosts: 
+    - agent-jenkins-sandbox-server
+  become: true
+  roles:
+    - linux
+    - agent-sandbox-server

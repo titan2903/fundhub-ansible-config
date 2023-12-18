@@ -1,6 +1,6 @@
 - name: Set hostname agent sandbox
   hostname:
-    name: "{{ hostname_agent_sandbox }}"
+    name: "{{ hostname }}"
 
 - name: Install fontconfig
   ansible.builtin.apt:

@@ -1,6 +1,6 @@
 - name: Set hostname agent fire
   hostname:
-    name: "{{ hostname_agent_fire }}"
+    name: "{{ hostname }}"
 
 - name: Install fontconfig
   ansible.builtin.apt:

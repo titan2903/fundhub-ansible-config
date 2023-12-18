@@ -1,0 +1,7 @@
+- name: Setup jenkins agents server
+  hosts: 
+    - agent-jenkins-fire-server
+  become: true
+  roles:
+    - linux
+    - agent-fire-server
