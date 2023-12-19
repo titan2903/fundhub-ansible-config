@@ -2,6 +2,45 @@
   hostname:
     name: "{{ hostname }}"
 
+- name: Add Docker GPG key
+  apt_key:
+    url: https://download.docker.com/linux/ubuntu/gpg
+
+- name: Add Docker APT repository
+  apt_repository:
+    repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ ansible_lsb.codename }} stable
+  notify:
+    - Update apt cache
+
+- name: Install Docker
+  apt:
+    name: docker-ce
+    state: present
+
+- name: Start and enable Docker service
+  service:
+    name: docker
+    state: started
+    enabled: yes
+
+- name: Set permissions for /var/run/docker.sock
+  ansible.builtin.file:
+    path: /var/run/docker.sock
+    mode: '0666'
+
+- name: Add user to docker group
+  ansible.builtin.user:
+    name: "{{ ansible_user }}"
+    groups: docker
+    append: yes
+
+- name: Restart Docker service
+  ansible.builtin.systemd:
+    name: docker
+    state: restarted
+  notify:
+    - Update apt cache
+    
 - name: Install fontconfig
   ansible.builtin.apt:
     name: fontconfig
