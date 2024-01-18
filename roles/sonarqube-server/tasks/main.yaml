@@ -81,3 +81,17 @@
   systemd:
     name: sonar
     state: started
+  register: started_sonar
+
+- name: Display started SonarQube service
+  ansible.builtin.debug:
+    var: started_sonar
+
+- name: Send Discord Notification on Success
+  command: >
+    curl -X POST
+    -H "Content-Type: application/json"
+    -d '{"content": "Ansible Playbook", "embeds": [{"title": "Ansible Playbook", "description": "Ansible Playbook SonarQube Execution Successful!","color": 65280}]}'
+    "{{ discord_webhook }}"
+  ignore_errors: true
+  when: started_sonar.failed == false
