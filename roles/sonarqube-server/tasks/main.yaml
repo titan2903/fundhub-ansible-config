@@ -2,12 +2,82 @@
   hostname:
     name: "{{ hostname }}"
 
-- name: Install fontconfig
+- name: Add pgdg repo to sources.list.d
+  lineinfile:
+    path: /etc/apt/sources.list.d/pgdg.list
+    line: "deb http://apt.postgresql.org/pub/repos/apt {{ ansible_distribution_release }}-pgdg main"
+    create: true
+
+- name: Import PostgreSQL GPG key
+  apt_key:
+    url: https://www.postgresql.org/media/keys/ACCC4CF8.asc
+    state: present
+  notify:
+    - Update apt cache
+
+- name: Install depedencies
   ansible.builtin.apt:
-    name: fontconfig
+    name: "{{ item }}"
+    state: present
+    update_cache: yes
+  loop:
+    - fontconfig
+    - openjdk-11-jdk
+    - zip
+    - postgresql
+    - postgresql-contrib
+
+- name: Enable PostgreSQL service
+  systemd:
+    name: postgresql
+    enabled: yes
+  notify: Start PostgreSQL service
+
+- name: Create Download folder
+  file:
+    path: "/home/titan/Download"
+    state: directory
+    mode: 0755
+
+- name: Download SonarQube zip file
+  ansible.builtin.unarchive:
+    src: "https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-9.8.0.63668.zip"
+    dest: "/opt/"
+    remote_src: yes
+
+- name: Rename SonarQube directory
+  command:
+    cmd: "mv /opt/sonarqube-9.8.0.63668 /opt/sonarqube"
+  args:
+    creates: "/opt/sonarqube"
+
+- name: Create Sonar group
+  group:
+    name: sonar
     state: present
 
-- name: Install OpenJDK 11
-  ansible.builtin.apt:
-    name: openjdk-11-jdk
+- name: Create Sonar user
+  user:
+    name: sonar
+    comment: SonarQube User
+    home: /opt/sonarqube
+    group: sonar
+    shell: /bin/bash
     state: present
+
+- name: Grant access to /opt/sonarqube directory
+  file:
+    path: /opt/sonarqube
+    owner: sonar
+    group: sonar
+    recurse: yes
+
+- name: Enable SonarQube service
+  systemd:
+    name: sonar
+    enabled: yes
+
+- name: Start SonarQube service
+  systemd:
+    name: sonar
+    state: started

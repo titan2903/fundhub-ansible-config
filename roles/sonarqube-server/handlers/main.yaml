@@ -1,0 +1,13 @@
+- name: Update apt cache
+  ansible.builtin.apt:
+    update_cache: yes
+
+- name: Start PostgreSQL service
+  systemd:
+    name: postgresql
+    state: started
+
+- name: Start SonarQube service
+  systemd:
+    name: sonar
+    state: started
