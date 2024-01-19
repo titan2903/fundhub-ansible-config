@@ -1,9 +1,6 @@
 - name: Setup mariadb server staging
-  hosts: 
-    - sonarqube-server
+  hosts: sonarqube-server
   become: true
-  # vars:
-  #   - hostname: sonarqube-server
   roles:
     - linux
     - sonarqube-server
